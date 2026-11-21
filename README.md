@@ -4,6 +4,8 @@ Build a refractive toolbar, navigation bar or set of buttons for the web. This a
 
 **[Try the interactive iPhone demo](https://owgit.github.io/liquid-glass-skill/examples/iphone/)** · [Read the skill](skills/liquid-glass-web/SKILL.md) · [Review the bundled engine](docs/upstream-review.md)
 
+[![Aurora demo with the WebGL effect enabled on two navigation links](docs/aurora-demo.jpg)](https://owgit.github.io/liquid-glass-skill/examples/iphone/)
+
 ## Install for Codex and Claude Code
 
 On macOS or Linux, clone the project and run the local installer.
