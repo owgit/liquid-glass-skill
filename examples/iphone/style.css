@@ -1,0 +1,73 @@
+:root {
+  color-scheme: dark;
+  font-family: "Helvetica Neue", system-ui, sans-serif;
+  color: #edf5ed;
+  background: #0b1515;
+  --gutter: clamp(1rem, 4vw, 3rem);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto;
+  max-width: 82rem;
+  padding: env(safe-area-inset-top, 0px) max(var(--gutter), env(safe-area-inset-right, 0px))
+    max(2rem, env(safe-area-inset-bottom, 0px)) max(var(--gutter), env(safe-area-inset-left, 0px));
+}
+a { color: inherit; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid #ffd689; outline-offset: 3px; }
+[hidden] { display: none !important; }
+.skip { position: absolute; top: 0.5rem; left: 1rem; z-index: 4; padding: 0.75rem; background: #162725; }
+.skip:not(:focus) { clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+.masthead { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 0; }
+.wordmark {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font: italic 1.65rem/1 Georgia, serif; letter-spacing: -0.04em; text-decoration: none;
+}
+#effect {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  min-height: 44px; padding: 0.55rem 0.8rem; border: 1px solid #5b7168; border-radius: 2rem;
+  color: inherit; background: #162521; cursor: pointer;
+}
+#effect[aria-disabled="true"] { cursor: default; }
+.switch-track {
+  display: inline-flex; align-items: center; width: 1.75rem; height: 1.06rem;
+  padding: 0.12rem; border: 1px solid #93a39a; border-radius: 1rem;
+}
+.switch-track::before { content: ""; width: 0.65rem; aspect-ratio: 1; border-radius: 50%; background: #c9d7ce; }
+[aria-pressed="true"] .switch-track { justify-content: flex-end; background: #9cddac; }
+[aria-pressed="true"] .switch-track::before { background: #10251c; }
+.sky {
+  isolation: isolate; overflow: hidden; border-radius: clamp(1rem, 3vw, 2.4rem);
+  background-color: #0c222c;
+  background-image:
+    radial-gradient(ellipse at 74% -24%, transparent 36%, #4eac89 49%, #21595c 57%, transparent 70%),
+    radial-gradient(ellipse at 98% 82%, #1d5459, transparent 58%),
+    linear-gradient(142deg, #141b37, #143d48 65%, #102627);
+}
+.sky liquid-glass { display: block; }
+.scene-content {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
+  min-height: clamp(23rem, 60vh, 38rem); padding: clamp(1.35rem, 5vw, 4.5rem);
+  background: linear-gradient(5deg, rgb(4 20 23 / 90%), rgb(4 20 23 / 62%) 33%, transparent 72%);
+}
+h1, h2, p { margin: 0; }
+h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
+h1 { color: #fff9ec; font-size: clamp(3.5rem, 12vw, 9rem); line-height: 1; letter-spacing: -0.065em; }
+.subtitle { color: #f5faef; margin: 0.45rem 0 1.5rem; font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.5; }
+nav { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+nav a {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 0.65rem;
+  min-height: 44px; padding: 0.6rem 1rem; border: 1px solid #75928b; border-radius: 2rem;
+  font-weight: 600; font-size: 0.95rem; text-decoration: none; color: #fff; background-color: #182e30;
+  --glass-tint: rgba(8, 35, 38, 0.8); --glass-frost: 0.65; --glass-press: 1;
+}
+.sky liquid-glass[data-renderer="webgl"] nav a { background-color: transparent; }
+nav a:hover, .wordmark:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.status:not(:empty) { margin-top: 0.75rem; color: #c4d5cb; font-size: 0.9rem; line-height: 1.5; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: clamp(1rem, 4vw, 4rem); padding: clamp(1.6rem, 5vw, 3.5rem) 0; }
+.notes section { border-top: 1px solid #40554c; padding: 1.2rem 0 0.5rem; scroll-margin-top: 1rem; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); letter-spacing: -0.035em; }
+.notes p { margin-top: 0.65rem; max-width: 52ch; line-height: 1.65; color: #c0d0c6; }
+@media (forced-colors: active) {
+  .switch-track::before { background: ButtonText; forced-color-adjust: none; }
+}

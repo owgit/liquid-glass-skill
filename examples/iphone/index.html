@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Explore an accessible Liquid Glass example for iPhone Safari. Compare solid and WebGL navigation over an aurora, with native links and reduced-effects support.">
+  <title>Aurora · Liquid Glass for iPhone Safari</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./demo.js"></script>
+</head>
+<body>
+  <a class="skip" href="#guide">Skip to the guide</a>
+  <header class="masthead">
+    <a class="wordmark" href="#guide">Light studies</a>
+    <div class="appearance">
+      <button id="effect" type="button" aria-pressed="false" hidden>
+        <span class="switch-track" aria-hidden="true"></span>
+        Glass effect
+      </button>
+    </div>
+  </header>
+  <main id="guide" tabindex="-1">
+    <div id="sky" class="sky">
+      <div class="scene-content">
+        <h1>Aurora</h1>
+        <p class="subtitle">A field guide to the northern lights.</p>
+        <nav aria-label="In this guide">
+          <a glass href="#formation">How it forms <span aria-hidden="true">↘</span></a>
+          <a glass href="#viewing">Viewing tips <span aria-hidden="true">↘</span></a>
+        </nav>
+      </div>
+    </div>
+    <p id="status" class="status" role="status"></p>
+    <div class="notes">
+      <section id="formation" tabindex="-1" aria-labelledby="formation-title">
+        <h2 id="formation-title">How it forms</h2>
+        <p>Charged particles follow Earth’s magnetic field toward the poles. When they collide with gas in the upper atmosphere, the gas emits light. Oxygen can glow green or red, while nitrogen can add blue and purple.</p>
+      </section>
+      <section id="viewing" tabindex="-1" aria-labelledby="viewing-title">
+        <h2 id="viewing-title">Viewing tips</h2>
+        <p>Find a clear stretch of dark sky away from streetlights. Give your eyes time to adjust, then watch for faint arcs that brighten or shift into curtains.</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

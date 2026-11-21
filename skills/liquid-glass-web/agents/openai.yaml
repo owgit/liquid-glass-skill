@@ -1,0 +1,4 @@
+interface:
+  display_name: "Liquid Glass for the Web"
+  short_description: "Build accessible Liquid Glass web controls"
+  default_prompt: "Use $liquid-glass-web to add a glass toolbar to my site with a readable solid mode for iPhone Safari."
