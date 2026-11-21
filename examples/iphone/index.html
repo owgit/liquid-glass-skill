@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Watch a moving aurora bend through Liquid Glass buttons. Pause the backdrop or switch to solid navigation in this accessible iPhone Safari web demo.">
-  <title>Aurora · Liquid Glass for iPhone Safari</title>
+  <meta name="description" content="Watch ripples in a sunlit pool bend through Liquid Glass buttons. Pause the backdrop or switch to solid navigation in this accessible iPhone Safari web demo.">
+  <title>Poolside · Liquid Glass for iPhone Safari</title>
   <link rel="canonical" href="https://owgit.github.io/liquid-glass-skill/examples/iphone/">
-  <meta property="og:title" content="Aurora · Liquid Glass for iPhone Safari">
-  <meta property="og:description" content="Try solid and refractive navigation over an aurora. A live example from the Liquid Glass skill for Codex and Claude Code.">
+  <meta property="og:title" content="Poolside · Liquid Glass for iPhone Safari">
+  <meta property="og:description" content="Compare solid and refractive navigation over moving pool water. A live example from the Liquid Glass skill for Codex and Claude Code.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://owgit.github.io/liquid-glass-skill/examples/iphone/">
-  <meta property="og:image" content="https://owgit.github.io/liquid-glass-skill/docs/aurora-demo.jpg">
+  <meta property="og:image" content="https://owgit.github.io/liquid-glass-skill/docs/pool-demo.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Two curved glass navigation links refract an aurora photograph from Iceland.">
+  <meta property="og:image:alt" content="Curved glass navigation links refract bright ripples in a turquoise pool.">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preload" as="image" type="image/webp" href="./aurora.webp" fetchpriority="high">
-  <link rel="stylesheet" href="./style.css?v=481b4dc4">
-  <script type="module" src="./demo.js?v=eb8710d8"></script>
+  <link rel="preload" as="image" type="image/webp" href="./pool.webp" fetchpriority="high">
+  <link rel="stylesheet" href="./style.css?v=efb4b290">
+  <script type="module" src="./demo.js?v=d9da9a57"></script>
 </head>
 <body>
   <a class="skip" href="#guide">Skip to the guide</a>
@@ -33,33 +33,32 @@
   </header>
   <main id="guide" tabindex="-1">
     <div class="hero">
-      <div id="sky" class="sky">
+      <div id="pool" class="pool">
         <div class="scene-content">
-          <h1>Aurora</h1>
-          <p class="subtitle">A field guide to the northern lights.</p>
+          <h1>Poolside</h1>
+          <p class="subtitle">Follow the ripples through the glass.</p>
           <nav aria-label="In this guide">
-            <a glass href="#formation">How it forms <span aria-hidden="true">↘</span></a>
-            <a glass href="#viewing">Viewing tips <span aria-hidden="true">↘</span></a>
+            <a glass href="#formation">Water ripples <span aria-hidden="true">↘</span></a>
+            <a glass href="#viewing">Glass edges <span aria-hidden="true">↘</span></a>
           </nav>
         </div>
       </div>
-      <button id="motion" type="button" aria-controls="sky" hidden>Play motion</button>
+      <button id="motion" type="button" aria-controls="pool" hidden>Play motion</button>
     </div>
     <p id="status" class="status" role="status"></p>
     <div class="notes">
       <section id="formation" tabindex="-1" aria-labelledby="formation-title">
-        <h2 id="formation-title">How it forms</h2>
-        <p>Charged particles follow Earth’s magnetic field toward the poles. When they collide with gas in the upper atmosphere, the gas emits light. Oxygen can glow green or red, while nitrogen can add blue and purple.</p>
+        <h2 id="formation-title">Water ripples</h2>
+        <p>Moving water concentrates sunlight into bright lines on the pool floor. Pick a line and follow it as it crosses either button.</p>
       </section>
       <section id="viewing" tabindex="-1" aria-labelledby="viewing-title">
-        <h2 id="viewing-title">Viewing tips</h2>
-        <p>Find a clear stretch of dark sky away from streetlights. Give your eyes time to adjust, then watch for faint arcs that brighten or shift into curtains.</p>
+        <h2 id="viewing-title">Glass edges</h2>
+        <p>Pause the water, then toggle Glass effect. The same bright line bends and widens along the button’s curved rim.</p>
       </section>
     </div>
   </main>
   <footer>
     <a href="https://github.com/owgit/liquid-glass-skill">Get the Liquid Glass skill on GitHub</a>
-    <a href="https://commons.wikimedia.org/wiki/File:Aurora_Iceland.jpg">Photo by Sean O Riordan · CC0</a>
   </footer>
 </body>
 </html>

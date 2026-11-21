@@ -4,7 +4,7 @@ Build a refractive toolbar, navigation bar or set of buttons for the web. This a
 
 **[Try the interactive iPhone demo](https://owgit.github.io/liquid-glass-skill/examples/iphone/)** · [Read the skill](skills/liquid-glass-web/SKILL.md) · [Review the bundled engine](docs/upstream-review.md)
 
-[![Aurora demo with the WebGL effect enabled on two navigation links](docs/aurora-demo.jpg)](https://owgit.github.io/liquid-glass-skill/examples/iphone/)
+[![Moving pool water refracted through two glass navigation links](docs/pool-demo.jpg)](https://owgit.github.io/liquid-glass-skill/examples/iphone/)
 
 ## Install for Codex and Claude Code
 
@@ -44,9 +44,9 @@ and keep keyboard focus, link destinations and the solid appearance working.
 
 ## How the iPhone example works
 
-The example starts with a still photograph and solid HTML links. On supported browsers a silent, eight-second loop moves the northern lights and ridge behind the navigation. WebGL refracts each video frame through the stationary buttons. **Pause motion** freezes the current frame. Toggle **Glass effect** to compare transparent and solid controls. Playback pauses when the scene leaves the viewport or the tab is hidden. Reduced-effects preferences retain the still photograph. If autoplay is blocked, **Play motion** starts playback on request.
+The example starts with a still image of the pool and solid HTML links. On supported browsers a silent loop moves the water’s bright ripple patterns behind the navigation. WebGL refracts each video frame through the stationary buttons. **Pause motion** freezes the current frame. Toggle **Glass effect** to compare transparent and solid controls. Playback pauses when the scene leaves the viewport or the tab is hidden. Reduced-effects preferences retain the still image. If autoplay is blocked, **Play motion** starts playback on request.
 
-The local WebP and animated MP4 are derived from Sean O Riordan’s CC0 photograph *Aurora Iceland*. The loop adds a slow camera movement and animates the sky. [Original photograph and license](https://commons.wikimedia.org/wiki/File:Aurora_Iceland.jpg)
+The seven-second loop animates the light in Zerowing’s original pool backdrop. This demo serves the video and its matching still image locally. [Original pool image](https://github.com/MuhammadaliMS/liquid-glass/blob/32cd7f8f45a782ba1f209295d8358d3c855c4aa5/site/backdrops/pool.webp) · [Upstream license](skills/liquid-glass-web/assets/LICENSE.zerowing)
 
 To run the example locally from the repository root:
 
@@ -62,7 +62,7 @@ Open `http://127.0.0.1:8000/examples/iphone/`. [Example source](examples/iphone/
 | --- | --- |
 | HTML or a client-rendered app | Self-host the bundled module and mark the controls inside a scene with the `glass` attribute. |
 | React or Next.js with server rendering | Render the links and labels on the server. Load the WebGL module on the client after mount or interaction. |
-| A toolbar over a photo or an aurora | Use that backdrop in the scene. The renderer samples the scene’s backdrop texture. |
+| A toolbar over a photo or a video | Use that backdrop in the scene. The renderer samples the scene’s backdrop texture. |
 | A fixed bar over arbitrary scrolling page content | Use a solid surface or CSS backdrop filtering. The WebGL scene cannot sample unrelated DOM behind it. |
 | Native iOS app | Use SwiftUI or UIKit and the platform’s Liquid Glass APIs. This skill is designed for browser interfaces. |
 

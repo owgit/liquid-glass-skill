@@ -1,11 +1,11 @@
 const glassButton = document.querySelector("#effect");
 const motionButton = document.querySelector("#motion");
-const sky = document.querySelector("#sky");
-const content = sky.querySelector(".scene-content");
+const pool = document.querySelector("#pool");
+const content = pool.querySelector(".scene-content");
 const panes = [...content.querySelectorAll("[glass]")];
 const status = document.querySelector("#status");
-const poster = new URL("./aurora.webp", import.meta.url).href;
-const movie = new URL("./aurora-loop.mp4", import.meta.url).href;
+const poster = new URL("./pool.webp", import.meta.url).href;
+const movie = new URL("./pool-loop.mp4", import.meta.url).href;
 const preferences = [
   matchMedia("(prefers-reduced-motion: reduce)"),
   matchMedia("(prefers-reduced-transparency: reduce)"),
@@ -38,7 +38,7 @@ function updateControls() {
 function moveContent(destination) {
   const focused = content.contains(document.activeElement) ? document.activeElement : null;
   destination.append(content);
-  if (destination !== sky) sky.append(destination);
+  if (destination !== pool) pool.append(destination);
   focused?.focus({ preventScroll: true });
 }
 
@@ -54,7 +54,7 @@ function removeScene(message) {
   observer?.disconnect();
   video = null;
   if (scene) {
-    moveContent(sky);
+    moveContent(pool);
     scene.remove();
     scene = null;
   }
@@ -69,7 +69,7 @@ function usePoster(media) {
   wantsMotion = false;
   scene.removeAttribute("data-ready");
   scene.backdrop = poster;
-  status.textContent = "Showing the still photograph. Select Play motion to try again.";
+  status.textContent = "Showing the still pool image. Select Play motion to try again.";
   updateControls();
 }
 
@@ -114,7 +114,7 @@ function syncPlayback() {
 
 async function syncPreferences() {
   if (reducedEffects()) {
-    removeScene("Solid controls and a still photograph match your display preferences.");
+    removeScene("Solid controls and a still image match your display preferences.");
     return;
   }
   if (unavailable || scene) return;
@@ -127,7 +127,7 @@ async function syncPreferences() {
     const checkRenderer = () => {
       if (scene?.dataset.renderer !== "webgl") {
         unavailable = true;
-        removeScene("WebGL is unavailable. Showing the photograph with solid controls.");
+        removeScene("WebGL is unavailable. Showing the still image with solid controls.");
       } else if (scene.backdrop === poster && scene.hasAttribute("data-ready") && scene.animatedScene) {
         unavailable = true;
         removeScene("The backdrop could not load. Solid controls are on.");
@@ -144,7 +144,7 @@ async function syncPreferences() {
   } catch {
     if (token === generation) {
       unavailable = true;
-      removeScene("The glass effect could not load. Showing the photograph with solid controls.");
+      removeScene("The glass effect could not load. Showing the still image with solid controls.");
     }
   }
 }
@@ -164,7 +164,7 @@ if ("customElements" in window && "ResizeObserver" in window && "IntersectionObs
   new IntersectionObserver(([entry]) => {
     inView = entry.isIntersecting;
     syncPlayback();
-  }).observe(sky);
+  }).observe(pool);
   document.addEventListener("visibilitychange", syncPlayback);
   preferences.forEach(query => query.addEventListener("change", syncPreferences));
   syncPreferences();
