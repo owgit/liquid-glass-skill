@@ -61,13 +61,14 @@ nav a {
   font-weight: 600; font-size: 0.95rem; text-decoration: none; color: #fff; background-color: #182e30;
   --glass-tint: rgba(8, 35, 38, 0.8); --glass-frost: 0.65; --glass-press: 1;
 }
-.sky liquid-glass[data-renderer="webgl"] nav a { background-color: transparent; }
+.sky liquid-glass[data-renderer="webgl"][data-ready] nav a { background-color: transparent; }
 nav a:hover, .wordmark:hover { text-decoration: underline; text-underline-offset: 0.2em; }
 .status:not(:empty) { margin-top: 0.75rem; color: #c4d5cb; font-size: 0.9rem; line-height: 1.5; }
 .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: clamp(1rem, 4vw, 4rem); padding: clamp(1.6rem, 5vw, 3.5rem) 0; }
 .notes section { border-top: 1px solid #40554c; padding: 1.2rem 0 0.5rem; scroll-margin-top: 1rem; }
 h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); letter-spacing: -0.035em; }
 .notes p { margin-top: 0.65rem; max-width: 52ch; line-height: 1.65; color: #c0d0c6; }
+footer a { display: inline-flex; align-items: center; min-height: 44px; color: #bdd5c9; text-underline-offset: 0.2em; }
 @media (forced-colors: active) {
   .switch-track::before { background: ButtonText; forced-color-adjust: none; }
 }

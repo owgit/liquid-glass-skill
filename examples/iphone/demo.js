@@ -48,8 +48,8 @@ async function enableGlass() {
     if (token !== revision) return;
     scene = document.createElement("liquid-glass");
     scene.setAttribute("backdrop", "aurora");
-    scene.setAttribute("colors", "#43d79b #1e897f #4c589b #276c63");
-    scene.setAttribute("dim", "0.34");
+    scene.setAttribute("colors", "#80ffbd #29cdbb #898fff #60e1a1");
+    scene.setAttribute("dim", "0.12");
     moveContent(scene);
     if (scene.dataset.renderer !== "webgl") {
       useSolid("WebGL is unavailable. Solid controls are on.");
