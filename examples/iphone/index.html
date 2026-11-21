@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Explore an accessible Liquid Glass example for iPhone Safari. Compare solid and WebGL navigation over an aurora, with native links and reduced-effects support.">
+  <meta name="description" content="Watch a moving aurora bend through Liquid Glass buttons. Pause the backdrop or switch to solid navigation in this accessible iPhone Safari web demo.">
   <title>Aurora · Liquid Glass for iPhone Safari</title>
   <link rel="canonical" href="https://owgit.github.io/liquid-glass-skill/examples/iphone/">
   <meta property="og:title" content="Aurora · Liquid Glass for iPhone Safari">
@@ -17,8 +17,8 @@
   <meta property="og:image:alt" content="Two curved glass navigation links refract an aurora photograph from Iceland.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" as="image" type="image/webp" href="./aurora.webp" fetchpriority="high">
-  <link rel="stylesheet" href="./style.css?v=a268196f">
-  <script type="module" src="./demo.js?v=15248f0a"></script>
+  <link rel="stylesheet" href="./style.css?v=481b4dc4">
+  <script type="module" src="./demo.js?v=eb8710d8"></script>
 </head>
 <body>
   <a class="skip" href="#guide">Skip to the guide</a>
@@ -32,15 +32,18 @@
     </div>
   </header>
   <main id="guide" tabindex="-1">
-    <div id="sky" class="sky">
-      <div class="scene-content">
-        <h1>Aurora</h1>
-        <p class="subtitle">A field guide to the northern lights.</p>
-        <nav aria-label="In this guide">
-          <a glass href="#formation">How it forms <span aria-hidden="true">↘</span></a>
-          <a glass href="#viewing">Viewing tips <span aria-hidden="true">↘</span></a>
-        </nav>
+    <div class="hero">
+      <div id="sky" class="sky">
+        <div class="scene-content">
+          <h1>Aurora</h1>
+          <p class="subtitle">A field guide to the northern lights.</p>
+          <nav aria-label="In this guide">
+            <a glass href="#formation">How it forms <span aria-hidden="true">↘</span></a>
+            <a glass href="#viewing">Viewing tips <span aria-hidden="true">↘</span></a>
+          </nav>
+        </div>
       </div>
+      <button id="motion" type="button" aria-controls="sky" hidden>Play motion</button>
     </div>
     <p id="status" class="status" role="status"></p>
     <div class="notes">

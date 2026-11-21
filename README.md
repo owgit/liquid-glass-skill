@@ -44,9 +44,9 @@ and keep keyboard focus, link destinations and the solid appearance working.
 
 ## How the iPhone example works
 
-The example renders solid HTML links immediately, then enables refraction on supported browsers. Toggle **Glass effect** to compare both modes against the same photograph. Look at the ridge and the northern lights as they cross a button’s curved edge. The optical effect comes from the WebGL scene. Low frost and a nearly clear tint preserve detail behind the label. Reduced-effects preferences, renderer failures and WebGL context loss return the controls to solid mode.
+The example starts with a still photograph and solid HTML links. On supported browsers a silent, eight-second loop moves the northern lights and ridge behind the navigation. WebGL refracts each video frame through the stationary buttons. **Pause motion** freezes the current frame. Toggle **Glass effect** to compare transparent and solid controls. Playback pauses when the scene leaves the viewport or the tab is hidden. Reduced-effects preferences retain the still photograph. If autoplay is blocked, **Play motion** starts playback on request.
 
-The local WebP is a resized rendition of Sean O Riordan’s *Aurora Iceland*, dedicated to the public domain under CC0. [Original photograph and license](https://commons.wikimedia.org/wiki/File:Aurora_Iceland.jpg)
+The local WebP and animated MP4 are derived from Sean O Riordan’s CC0 photograph *Aurora Iceland*. The loop adds a slow camera movement and animates the sky. [Original photograph and license](https://commons.wikimedia.org/wiki/File:Aurora_Iceland.jpg)
 
 To run the example locally from the repository root:
 

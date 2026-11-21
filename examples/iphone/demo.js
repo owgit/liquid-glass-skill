@@ -1,19 +1,39 @@
-const button = document.querySelector("#effect");
+const glassButton = document.querySelector("#effect");
+const motionButton = document.querySelector("#motion");
 const sky = document.querySelector("#sky");
 const content = sky.querySelector(".scene-content");
+const panes = [...content.querySelectorAll("[glass]")];
 const status = document.querySelector("#status");
-const backdrop = new URL("./aurora.webp", import.meta.url).href;
+const poster = new URL("./aurora.webp", import.meta.url).href;
+const movie = new URL("./aurora-loop.mp4", import.meta.url).href;
 const preferences = [
   matchMedia("(prefers-reduced-motion: reduce)"),
   matchMedia("(prefers-reduced-transparency: reduce)"),
   matchMedia("(forced-colors: active)"),
 ];
+
 let scene;
-let rendererObserver;
-let pendingTimeout;
-let loading = false;
+let video;
+let observer;
+let generation = 0;
+let playRequest = 0;
+let loadTimer;
+let inView = false;
 let wantsGlass = true;
-let revision = 0;
+let wantsMotion = !navigator.connection?.saveData;
+let unavailable = false;
+
+const reducedEffects = () => preferences.some(query => query.matches);
+const canPlay = () => wantsMotion && inView && !document.hidden;
+
+function updateControls() {
+  const disabled = reducedEffects() || unavailable;
+  glassButton.disabled = disabled;
+  glassButton.setAttribute("aria-pressed", String(Boolean(scene) && wantsGlass && !disabled));
+  motionButton.hidden = !scene || disabled;
+  motionButton.textContent = wantsMotion ? "Pause motion" : "Play motion";
+  for (const pane of panes) pane.toggleAttribute("glass", wantsGlass);
+}
 
 function moveContent(destination) {
   const focused = content.contains(document.activeElement) ? document.activeElement : null;
@@ -22,72 +42,130 @@ function moveContent(destination) {
   focused?.focus({ preventScroll: true });
 }
 
-function useSolid(message = "") {
-  revision++;
-  clearTimeout(pendingTimeout);
-  loading = false;
-  rendererObserver?.disconnect();
+function clearPlayback() {
+  playRequest++;
+  clearTimeout(loadTimer);
+  video?.pause();
+}
+
+function removeScene(message) {
+  generation++;
+  clearPlayback();
+  observer?.disconnect();
+  video = null;
   if (scene) {
     moveContent(sky);
     scene.remove();
     scene = null;
   }
-  button.setAttribute("aria-pressed", "false");
+  updateControls();
   status.textContent = message;
 }
 
-function syncPreferences() {
-  const reduce = preferences.some(query => query.matches);
-  button.setAttribute("aria-disabled", String(reduce));
-  if (reduce) useSolid("Solid controls are on to match your display preferences.");
-  else if (wantsGlass && !scene && !loading) enableGlass();
-  else if (!wantsGlass) status.textContent = "";
+function usePoster(media) {
+  if (media !== video || !scene) return;
+  clearPlayback();
+  video = null;
+  wantsMotion = false;
+  scene.removeAttribute("data-ready");
+  scene.backdrop = poster;
+  status.textContent = "Showing the still photograph. Select Play motion to try again.";
+  updateControls();
 }
 
-async function enableGlass() {
-  const token = ++revision;
-  loading = true;
-  button.setAttribute("aria-pressed", "true");
-  status.textContent = "Loading the glass effect…";
-  pendingTimeout = setTimeout(() => useSolid("The glass effect took too long to load. Solid controls are on."), 15000);
+function syncPlayback() {
+  if (!scene) return;
+  if (!canPlay()) {
+    clearPlayback();
+    return;
+  }
+
+  if (!video) {
+    scene.removeAttribute("data-ready");
+    scene.backdrop = movie;
+    // Zerowing 1.1.1 owns this muted inline video and consumes its frames in WebGL.
+    video = scene.video;
+    if (!video) {
+      usePoster(video);
+      return;
+    }
+    const media = video;
+    media.addEventListener("error", () => usePoster(media), { once: true });
+  }
+
+  const media = video;
+  const request = ++playRequest;
+  clearTimeout(loadTimer);
+  if (media.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+    loadTimer = setTimeout(() => {
+      if (request === playRequest) usePoster(media);
+    }, 12000);
+  }
+  // Also invoked directly by the Play button on devices that require a gesture.
+  media.play().then(() => {
+    if (request === playRequest) {
+      clearTimeout(loadTimer);
+      status.textContent = "";
+    }
+  }).catch(() => {
+    if (request === playRequest && canPlay()) usePoster(media);
+  });
+}
+
+async function syncPreferences() {
+  if (reducedEffects()) {
+    removeScene("Solid controls and a still photograph match your display preferences.");
+    return;
+  }
+  if (unavailable || scene) return;
+  const token = ++generation;
   try {
     await import("../../skills/liquid-glass-web/assets/liquid-glass.js");
-    if (token !== revision) return;
+    if (token !== generation) return;
     scene = document.createElement("liquid-glass");
-    scene.setAttribute("backdrop", backdrop);
+    scene.backdrop = poster;
     const checkRenderer = () => {
-      if (token !== revision) return;
-      if (scene.dataset.renderer !== "webgl") {
-        useSolid("WebGL is unavailable. Solid controls are on.");
-      } else if (scene.hasAttribute("data-ready")) {
-        // The pinned renderer marks both a loaded image and its procedural error fallback ready.
-        // For a static image, animatedScene is true only after that fallback.
-        if (scene.animatedScene) {
-          useSolid("The backdrop could not load. Solid controls are on.");
-          return;
-        }
-        clearTimeout(pendingTimeout);
-        loading = false;
-        status.textContent = "";
+      if (scene?.dataset.renderer !== "webgl") {
+        unavailable = true;
+        removeScene("WebGL is unavailable. Showing the photograph with solid controls.");
+      } else if (scene.backdrop === poster && scene.hasAttribute("data-ready") && scene.animatedScene) {
+        unavailable = true;
+        removeScene("The backdrop could not load. Solid controls are on.");
       }
     };
-    rendererObserver = new MutationObserver(checkRenderer);
-    rendererObserver.observe(scene, { attributes: true, attributeFilter: ["data-renderer", "data-ready"] });
+    observer = new MutationObserver(checkRenderer);
+    observer.observe(scene, { attributes: true, attributeFilter: ["data-renderer", "data-ready"] });
     moveContent(scene);
     checkRenderer();
+    if (!scene) return;
+    status.textContent = "";
+    updateControls();
+    syncPlayback();
   } catch {
-    if (token === revision) useSolid("The glass effect could not load. Solid controls are on.");
+    if (token === generation) {
+      unavailable = true;
+      removeScene("The glass effect could not load. Showing the photograph with solid controls.");
+    }
   }
 }
 
 if ("customElements" in window && "ResizeObserver" in window && "IntersectionObserver" in window) {
-  button.hidden = false;
+  glassButton.hidden = false;
+  glassButton.addEventListener("click", () => {
+    wantsGlass = !wantsGlass;
+    updateControls();
+  });
+  motionButton.addEventListener("click", () => {
+    wantsMotion = !wantsMotion;
+    status.textContent = "";
+    updateControls();
+    syncPlayback();
+  });
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    syncPlayback();
+  }).observe(sky);
+  document.addEventListener("visibilitychange", syncPlayback);
   preferences.forEach(query => query.addEventListener("change", syncPreferences));
   syncPreferences();
-  button.addEventListener("click", () => {
-    if (button.getAttribute("aria-disabled") === "true") return;
-    wantsGlass = !scene && !loading;
-    if (!wantsGlass) useSolid();
-    else enableGlass();
-  });
 }
