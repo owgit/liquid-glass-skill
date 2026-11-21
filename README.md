@@ -1,10 +1,10 @@
 # Liquid Glass Skill for Codex and Claude Code
 
-Build a refractive toolbar, navigation bar or set of buttons for the web. This agent skill integrates Zerowing’s WebGL renderer with ordinary HTML controls. It includes iPhone Safari guidance, a self-hosted browser module and a working example that stays usable with JavaScript or WebGL disabled.
+Build refractive navigation, buttons, cards, tab bars and lenses for the web. This agent skill integrates Zerowing’s WebGL renderer with ordinary HTML controls. It includes iPhone Safari guidance, a self-hosted browser module and a five-scene gallery that stays usable with JavaScript or WebGL disabled.
 
-**[Try the interactive iPhone demo](https://owgit.github.io/liquid-glass-skill/examples/iphone/)** · [Read the skill](skills/liquid-glass-web/SKILL.md) · [Review the bundled engine](docs/upstream-review.md)
+**[Open the live gallery](https://owgit.github.io/liquid-glass-skill/examples/iphone/)** · [Read the skill](skills/liquid-glass-web/SKILL.md) · [Component recipes](skills/liquid-glass-web/references/recipes.md) · [Review the bundled engine](docs/upstream-review.md)
 
-[![Moving pool water refracted through two glass navigation links](docs/pool-demo.jpg)](https://owgit.github.io/liquid-glass-skill/examples/iphone/)
+[![A glass navigation bar and two glass buttons refract moving pool water](docs/pool-demo.jpg)](https://owgit.github.io/liquid-glass-skill/examples/iphone/)
 
 ## Install for Codex and Claude Code
 
@@ -42,11 +42,19 @@ Keep its links in the server-rendered HTML and keep the controls readable on iPh
 and keep keyboard focus, link destinations and the solid appearance working.
 ```
 
-## How the iPhone example works
+## What the gallery shows
 
-The example starts with a still image of the pool and solid HTML links. On supported browsers a silent loop moves the water’s bright ripple patterns behind the navigation. WebGL refracts each video frame through the stationary buttons. **Pause motion** freezes the current frame. Toggle **Glass effect** to compare transparent and solid controls. Playback pauses when the scene leaves the viewport or the tab is hidden. Reduced-effects preferences retain the still image. If autoplay is blocked, **Play motion** starts playback on request.
+| Scene | Glass pieces | Backdrop |
+| --- | --- | --- |
+| Hero | Navigation bar, tinted primary button, secondary button | Pool video |
+| Buttons and controls | Buttons, a switch and a segmented control that change the scene’s `dim` and `colors` | Generated aurora |
+| Cards and players | A notice and a player whose button pauses the backdrop | Pool video |
+| Tab bar | Four labelled tabs and a round action | Generated aurora in green |
+| Lens | A magnifier you drag or move with the arrow keys | Pool still |
 
-The seven-second loop animates the light in Zerowing’s original pool backdrop. This demo serves the video and its matching still image locally. [Original pool image](https://github.com/MuhammadaliMS/liquid-glass/blob/32cd7f8f45a782ba1f209295d8358d3c855c4aa5/site/backdrops/pool.webp) · [Upstream license](skills/liquid-glass-web/assets/LICENSE.zerowing)
+Every scene starts as a still image with solid HTML links and buttons. On supported browsers WebGL then refracts the backdrop through the same controls. Toggle **Glass effect** to compare transparent and solid controls across the whole page. Video playback pauses when its scene leaves the viewport or the tab is hidden. Reduced-effects preferences keep the still images and solid controls. If autoplay is blocked, **Play motion** starts playback on request. The variables behind each piece are listed in the [component recipes](skills/liquid-glass-web/references/recipes.md).
+
+The seven-second pool loop animates the light in Zerowing’s original pool backdrop. This demo serves the video and its matching still image locally. [Original pool image](https://github.com/MuhammadaliMS/liquid-glass/blob/32cd7f8f45a782ba1f209295d8358d3c855c4aa5/site/backdrops/pool.webp) · [Upstream license](skills/liquid-glass-web/assets/LICENSE.zerowing)
 
 To run the example locally from the repository root:
 

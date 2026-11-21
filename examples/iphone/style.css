@@ -4,7 +4,9 @@
   color: #edf5ed;
   background: #0b1515;
   --gutter: clamp(1rem, 4vw, 3rem);
+  scroll-behavior: smooth;
 }
+@media (prefers-reduced-motion: reduce) { :root { scroll-behavior: auto; } }
 * { box-sizing: border-box; }
 body {
   margin: 0 auto;
@@ -14,74 +16,116 @@ body {
 }
 a { color: inherit; }
 button { font: inherit; }
+svg { width: 1.4rem; height: 1.4rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 :focus-visible { outline: 3px solid #ffd689; outline-offset: 3px; }
 [hidden] { display: none !important; }
+.visually-hidden, .skip:not(:focus) { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; white-space: nowrap; }
 .skip { position: absolute; top: 0.5rem; left: 1rem; z-index: 4; padding: 0.75rem; background: #162725; }
-.skip:not(:focus) { clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
 .masthead { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; padding: 1rem 0; }
 .wordmark {
   display: inline-flex; align-items: center; min-height: 44px;
   font: italic 1.65rem/1 Georgia, serif; letter-spacing: -0.04em; text-decoration: none;
 }
-#effect {
+#effect, .motion {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
-  min-height: 44px; padding: 0.55rem 0.8rem; border: 1px solid #5b7168; border-radius: 2rem;
+  min-height: 44px; padding: 0.55rem 0.9rem; border: 1px solid #5b7168; border-radius: 2rem;
   color: inherit; background: #162521; cursor: pointer;
 }
 #effect:disabled { cursor: default; }
+.motion { position: absolute; right: 0.8rem; bottom: 0.8rem; z-index: 1; }
 .switch-track {
-  display: inline-flex; align-items: center; width: 1.75rem; height: 1.06rem;
-  padding: 0.12rem; border: 1px solid #93a39a; border-radius: 1rem;
+  display: inline-flex; align-items: center; flex: none; width: 1.75rem; height: 1.06rem;
+  padding: 0.12rem; border: 1px solid #c3d0c8; border-radius: 1rem;
 }
-.switch-track::before { content: ""; width: 0.65rem; aspect-ratio: 1; border-radius: 50%; background: #c9d7ce; }
+.switch-track::before { content: ""; width: 0.65rem; aspect-ratio: 1; border-radius: 50%; background: #dbe6de; }
 [aria-pressed="true"] .switch-track { justify-content: flex-end; background: #9cddac; }
 [aria-pressed="true"] .switch-track::before { background: #10251c; }
-.hero { position: relative; }
-#motion {
-  position: absolute; right: 0.8rem; bottom: 0.8rem; z-index: 1;
-  min-height: 44px; padding: 0.45rem 0.9rem; border: 1px solid #91a69c;
-  border-radius: 2rem; background: #152620; color: #f5faef; cursor: pointer;
+
+/* A stage shows its still backdrop in CSS, so it looks right before and without WebGL. */
+.stage {
+  position: relative; isolation: isolate; overflow: hidden; border-radius: clamp(1rem, 3vw, 2.4rem);
+  --still: url("./pool.webp");
+  background: #14333d var(--still) center / cover no-repeat;
 }
-.pool {
-  isolation: isolate; overflow: hidden; border-radius: clamp(1rem, 3vw, 2.4rem);
-  background: #14333d url("./pool.webp") center / cover no-repeat;
-}
-.pool liquid-glass { display: block; background: transparent; }
-.pool liquid-glass::part(fallback) { background-image: url("./pool.webp"); }
+.stage[data-scene="aurora"] { --still: linear-gradient(135deg, #ff9a5a, #ff6f91 55%, #8f6bff); }
+.stage.night { --still: linear-gradient(160deg, #0a2a4a, #0b5d3b 55%, #3cff8a); }
+.stage liquid-glass { display: block; background: transparent; }
+.stage liquid-glass::part(fallback) { background-image: var(--still); }
 .scene-content {
-  display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
-  min-height: clamp(26rem, 65svh, 42rem); padding: clamp(1.35rem, 5vw, 4.5rem);
+  display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
+  min-height: 24rem; padding: clamp(1rem, 3vw, 2rem);
 }
-h1, h2, p { margin: 0; }
+.scene-content.centered { align-items: center; justify-content: center; }
+.scene-content.dock { flex-direction: row; align-items: flex-end; justify-content: center; gap: 0.6rem; }
+.hero .scene-content { min-height: clamp(30rem, 78svh, 46rem); padding-bottom: 4.5rem; }
+
+/* Every pane is solid first. It turns clear only inside a ready WebGL scene. */
+.pane {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  min-height: 54px; margin: 0; padding: 0.75rem 1.4rem; border: 1px solid #75928b; border-radius: 2rem;
+  font: inherit; font-weight: 650; text-decoration: none; color: #fff; background-color: #182e30;
+  --glass-depth: 1.5; --glass-dome: 1.3; --glass-ior: 1.5; --glass-chroma: 0.014; --glass-pull: 6;
+}
+button.pane { cursor: pointer; }
+.pane.tinted { background-color: #b4501c; border-color: #ffb37e; --glass-tint: rgba(255, 138, 61, 0.55); }
+.stage liquid-glass[data-renderer="webgl"][data-ready] [glass] {
+  border-color: transparent; background: none;
+  /* The renderer fades its canvas in over 0.5s, so stay solid until it has arrived. */
+  transition: background-color 0s 0.5s, border-color 0s 0.5s;
+  text-shadow: 0 1px 2px rgb(4 20 28 / 80%), 0 0 10px rgb(4 20 28 / 60%);
+}
+a.pane:hover, .bar a:hover, .wordmark:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.actions { display: flex; flex-wrap: wrap; justify-content: inherit; gap: 0.75rem; margin: 0; }
+.centered .actions { justify-content: center; }
+
+.bar { align-self: stretch; justify-content: space-evenly; gap: 0; padding: 0.3rem 0.6rem; }
+.bar a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 0.7rem; border-radius: 2rem; text-decoration: none; }
+.tabs { align-self: auto; --glass-depth: 1.6; --glass-dome: 1.4; --glass-tint: rgba(6, 24, 20, 0.4); }
+.tabs a { flex-direction: column; gap: 0.15rem; min-width: 4.2rem; padding: 0.4rem 0.5rem; font-size: 0.78rem; }
+.tabs [aria-current] { background: rgb(255 255 255 / 20%); }
+.round { flex: none; width: 64px; height: 64px; padding: 0; border-radius: 50%; }
+.loupe { width: 9.5rem; height: 9.5rem; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; --glass-depth: 2; --glass-dome: 2.2; --glass-pull: 0; }
+
+.segmented { gap: 0.2rem; padding: 0.3rem; --glass-frost: 0.35; }
+.segmented label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border-radius: 2rem; cursor: pointer; }
+.segmented input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented label:has(:checked) { background: rgb(255 255 255 / 26%); }
+.segmented label:has(:focus-visible) { outline: 3px solid #ffd689; outline-offset: 1px; }
+
+.card {
+  display: block; width: min(100%, 23rem); padding: 1rem 1.3rem; border-radius: 1.6rem; font-weight: 400;
+  background-color: #10232e; --glass-frost: 0.5; --glass-depth: 0.8; --glass-dome: 0.8; --glass-tint: rgba(4, 20, 32, 0.45);
+}
+.card h3 { margin: 0; font-size: 1.05rem; }
+.card p { margin-top: 0.25rem; font-size: 0.92rem; line-height: 1.45; color: #e3efe7; }
+.player { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 96px; }
+.player .round { font-size: 0.85rem; --glass-depth: 1.8; --glass-dome: 1.8; --glass-tint: rgba(120, 220, 255, 0.22); }
+
+h1, h2, h3, p { margin: 0; }
 h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
-h1 { color: #fff9ec; font-size: clamp(3.5rem, 12vw, 9rem); line-height: 1; letter-spacing: -0.065em; text-shadow: 0 2px 14px #092335; }
-.subtitle { color: #fff; margin: 0.45rem 0 1.6rem; font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.5; text-shadow: 0 1px 3px #071724, 0 1px 8px #071724; }
-nav { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-nav a {
-  display: inline-flex; align-items: center; justify-content: space-between; gap: 0.8rem;
-  min-height: 54px; padding: 0.75rem 1.2rem; border: 1px solid #75928b; border-radius: 2rem;
-  font-weight: 650; font-size: 1rem; text-decoration: none; color: #fff; background-color: #182e30;
-  --glass-tint: rgba(225, 255, 251, 0.04);
-  --glass-frost: 0.045; --glass-depth: 1.28; --glass-dome: 1.22; --glass-ior: 1.48;
-  --glass-chroma: 0.012; --glass-pull: 1.5;
-}
-.pool liquid-glass[data-renderer="webgl"][data-ready] nav a[glass] {
-  border-color: transparent;
-  background: linear-gradient(150deg, rgb(255 255 255 / 10%), transparent 43%, rgb(216 253 255 / 5%));
-  box-shadow: inset 0 1.5px 1px rgb(248 255 255 / 68%), inset 0 -1px 2px rgb(239 255 253 / 42%);
-  text-shadow: 0 1px 2px #071d29, 0 1px 5px #071d29, 0 0 12px #0b2533;
-}
-nav a:hover, .wordmark:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+h1 { margin-top: auto; max-width: 13ch; color: #fff9ec; font-size: clamp(2.6rem, 8vw, 5.6rem); line-height: 1; letter-spacing: -0.05em; text-shadow: 0 2px 14px #092335; }
+.subtitle { max-width: 44ch; color: #fff; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.5; text-shadow: 0 1px 3px #071724, 0 1px 8px #071724; }
 .status:not(:empty) { margin-top: 0.75rem; color: #c4d5cb; font-size: 0.9rem; line-height: 1.5; }
-.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: clamp(1rem, 4vw, 4rem); padding: clamp(1.6rem, 5vw, 3.5rem) 0; }
-.notes section { border-top: 1px solid #40554c; padding: 1.2rem 0 0.5rem; scroll-margin-top: 1rem; }
+
+.study {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: center;
+  gap: clamp(1rem, 4vw, 3.5rem); margin-top: clamp(2.5rem, 7vw, 5rem); scroll-margin-top: 1rem;
+}
 h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); letter-spacing: -0.035em; }
-.notes p { margin-top: 0.65rem; max-width: 52ch; line-height: 1.65; color: #c0d0c6; }
-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; }
+.words p { margin-top: 0.65rem; line-height: 1.65; color: #c0d0c6; }
+code { font: 0.86em/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; color: #d9ecd7; }
+pre { white-space: pre-wrap; margin: 1rem 0 0; padding: 0.8rem 1rem; overflow-x: auto; border: 1px solid #2c4039; border-radius: 0.8rem; background: #0f1d1b; }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; margin-top: clamp(2rem, 6vw, 4rem); }
 footer a { display: inline-flex; align-items: center; min-height: 44px; color: #bdd5c9; text-underline-offset: 0.2em; }
+@media (max-width: 52rem) {
+  .study { grid-template-columns: minmax(0, 1fr); }
+  .scene-content { min-height: 21rem; }
+}
 @media (max-width: 32rem) {
-  nav { gap: 0.55rem; }
-  nav a { gap: 0.5rem; padding-inline: 0.7rem; font-size: 0.95rem; }
+  .pane { padding-inline: 1rem; font-size: 0.95rem; }
+  .bar { padding-inline: 0.2rem; }
+  .bar a { padding: 0 0.45rem; }
+  .tabs a { min-width: 3.4rem; padding: 0.4rem 0.2rem; }
 }
 @media (forced-colors: active) {
   .switch-track::before { background: ButtonText; forced-color-adjust: none; }

@@ -1,6 +1,6 @@
 ---
 name: liquid-glass-web
-description: Build or review Liquid Glass web navigation, buttons and toolbars using Zerowing’s self-hosted WebGL component. Use for HTML, React, Next.js and iPhone Safari requests about refractive glass, accessible solid fallbacks, or reducing the rendering cost of glass effects.
+description: Build or review Liquid Glass web navigation, buttons, switches, cards, tab bars and draggable lenses using Zerowing’s self-hosted WebGL component. Use for HTML, React, Next.js and iPhone Safari requests about refractive glass, tuning how the glass looks, accessible solid fallbacks, or reducing the rendering cost of glass effects.
 ---
 
 # Liquid Glass for the web
@@ -12,8 +12,8 @@ Start from the existing page and its actual links, buttons, labels, focus order 
 1. Choose one bounded scene, usually a toolbar or a hero with a few controls. The renderer refracts the scene’s own backdrop. For controls that float over arbitrary page content, use CSS or a solid surface. Keep text, controls and crawlable links in the DOM.
 2. Copy [liquid-glass.js](assets/liquid-glass.js) **and** [LICENSE.zerowing](assets/LICENSE.zerowing) from this skill into the app’s public assets. Respect any base path used by the application. Use a same-origin URL. The bundled ES module registers the custom element and requires no build step.
 3. Ship a solid surface in the initial HTML and stylesheet. Give the scene stable dimensions. Load the module in the browser when the enhancement is wanted. In an SSR framework, keep headings and links in server output and import the module from a small client boundary after mount or interaction. Avoid a top-level import in server-rendered code.
-4. Put the desired controls inside one `<liquid-glass>` element and add the boolean `glass` attribute to each surface. In JSX emit `glass=""`. Preserve the original controls and listeners when moving them. The upper bound is 16 panes per scene and some mobile GPUs allow fewer. Style the actual shape using CSS padding and border radius.
-5. Reveal transparent styling only for a ready WebGL scene. In bundled version 1.1.1 the host then has both `data-renderer="webgl"` and `data-ready`. Keep the baseline opaque on module failure, unavailable WebGL, context loss or a user preference for solid controls. The upstream CSS fallback applies translucent backgrounds, so use a higher-specificity solid rule or remove the scene while preserving its content.
+4. Put the desired controls inside one `<liquid-glass>` element and add the boolean `glass` attribute to each surface. In JSX emit `glass=""`. Preserve the original controls and listeners when moving them. The upper bound is 16 panes per scene and some mobile GPUs allow fewer. Style the actual shape using CSS padding and border radius. Tune thickness, tint, frost and magnification with the `--glass-*` variables, starting from [the component recipes](references/recipes.md).
+5. Reveal transparent styling only for a ready WebGL scene. In bundled version 1.1.1 the host then has both `data-renderer="webgl"` and `data-ready`. The renderer fades its canvas in over half a second, so delay the switch to transparent by the same time or labels sit bare on the backdrop. Keep the baseline opaque on module failure, unavailable WebGL, context loss or a user preference for solid controls. The upstream CSS fallback applies translucent backgrounds, so use a higher-specificity solid rule or remove the scene while preserving its content.
 
 Use this selector pattern with an application-owned opt-in state and your component classes. Define the opaque baseline on the controls even when they sit outside the scene.
 

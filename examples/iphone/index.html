@@ -4,58 +4,150 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Watch ripples in a sunlit pool bend through Liquid Glass buttons. Pause the backdrop or switch to solid navigation in this accessible iPhone Safari web demo.">
-  <title>Poolside · Liquid Glass for iPhone Safari</title>
+  <meta name="description" content="A glass navigation bar, buttons, cards, a tab bar and a draggable lens, drawn in WebGL over ordinary links and buttons. Switch the effect off and every control keeps working.">
+  <title>Light studies · Liquid Glass components for the web</title>
   <link rel="canonical" href="https://owgit.github.io/liquid-glass-skill/examples/iphone/">
-  <meta property="og:title" content="Poolside · Liquid Glass for iPhone Safari">
-  <meta property="og:description" content="Compare solid and refractive navigation over moving pool water. A live example from the Liquid Glass skill for Codex and Claude Code.">
+  <meta property="og:title" content="Light studies · Liquid Glass components for the web">
+  <meta property="og:description" content="Navigation, buttons, cards, a tab bar and a lens in refractive glass, each with a solid mode. A live example from the Liquid Glass skill for Codex and Claude Code.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://owgit.github.io/liquid-glass-skill/examples/iphone/">
   <meta property="og:image" content="https://owgit.github.io/liquid-glass-skill/docs/pool-demo.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Curved glass navigation links refract bright ripples in a turquoise pool.">
+  <meta property="og:image:alt" content="A glass navigation bar and two glass buttons refract bright ripples in a turquoise pool.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" as="image" type="image/webp" href="./pool.webp" fetchpriority="high">
-  <link rel="stylesheet" href="./style.css?v=efb4b290">
-  <script type="module" src="./demo.js?v=d9da9a57"></script>
+  <link rel="stylesheet" href="./style.css?v=47dca04d">
+  <script type="module" src="./demo.js?v=7b18c831"></script>
 </head>
 <body>
   <a class="skip" href="#guide">Skip to the guide</a>
   <header class="masthead">
     <a class="wordmark" href="#guide">Light studies</a>
-    <div class="appearance">
-      <button id="effect" type="button" aria-pressed="false" hidden>
-        <span class="switch-track" aria-hidden="true"></span>
-        Glass effect
-      </button>
-    </div>
+    <button id="effect" type="button" aria-pressed="false" hidden>
+      <span class="switch-track" aria-hidden="true"></span>
+      Glass effect
+    </button>
   </header>
   <main id="guide" tabindex="-1">
-    <div class="hero">
-      <div id="pool" class="pool">
-        <div class="scene-content">
-          <h1>Poolside</h1>
-          <p class="subtitle">Follow the ripples through the glass.</p>
-          <nav aria-label="In this guide">
-            <a glass href="#formation">Water ripples <span aria-hidden="true">↘</span></a>
-            <a glass href="#viewing">Glass edges <span aria-hidden="true">↘</span></a>
-          </nav>
-        </div>
+    <div id="pool" class="stage hero" data-scene="./pool.webp" data-video="./pool-loop.mp4" data-dim="0.15">
+      <div class="scene-content">
+        <nav class="pane bar" glass aria-label="Studies">
+          <a href="#controls">Controls</a>
+          <a href="#cards">Cards</a>
+          <a href="#tabs">Tab bar</a>
+          <a href="#lens">Lens</a>
+        </nav>
+        <h1>Glass that bends its backdrop.</h1>
+        <p class="subtitle">Five interface pieces drawn in WebGL over ordinary links and buttons. Switch the effect off and every control keeps working.</p>
+        <p class="actions">
+          <a class="pane tinted" glass href="https://github.com/owgit/liquid-glass-skill">Get the skill</a>
+          <a class="pane" glass href="#controls">See the studies <span aria-hidden="true">↘</span></a>
+        </p>
       </div>
-      <button id="motion" type="button" aria-controls="pool" hidden>Play motion</button>
+      <button class="motion" type="button" data-motion data-noun=" motion" aria-controls="pool" hidden>Play motion</button>
     </div>
     <p id="status" class="status" role="status"></p>
-    <div class="notes">
-      <section id="formation" tabindex="-1" aria-labelledby="formation-title">
-        <h2 id="formation-title">Water ripples</h2>
-        <p>Moving water concentrates sunlight into bright lines on the pool floor. Pick a line and follow it as it crosses either button.</p>
-      </section>
-      <section id="viewing" tabindex="-1" aria-labelledby="viewing-title">
-        <h2 id="viewing-title">Glass edges</h2>
-        <p>Pause the water, then toggle Glass effect. The same bright line bends and widens along the button’s curved rim.</p>
-      </section>
-    </div>
+
+    <section class="study" id="controls" tabindex="-1" aria-labelledby="controls-title">
+      <div class="words">
+        <h2 id="controls-title">Buttons and controls</h2>
+        <p>A tinted primary action, a clear secondary one, a switch and a segmented control. The palette and the scrim here change the scene’s own <code>colors</code> and <code>dim</code> attributes.</p>
+        <pre><code>.primary {
+  --glass-tint: rgba(255, 138, 61, .55);
+}
+.segmented { --glass-frost: .35; }</code></pre>
+      </div>
+      <div class="stage" data-scene="aurora" data-colors="#ff9a5a #ffe08a #ff6f91 #8f6bff">
+        <div class="scene-content centered">
+          <p class="actions">
+            <a class="pane tinted" glass href="https://github.com/owgit/liquid-glass-skill#install-for-codex-and-claude-code">Install the skill</a>
+            <a class="pane" glass href="https://github.com/owgit/liquid-glass-skill/blob/HEAD/skills/liquid-glass-web/references/recipes.md">Read the recipes</a>
+          </p>
+          <div class="actions" data-needs-scene hidden>
+            <button id="dim" class="pane" glass type="button" aria-pressed="false">
+              <span class="switch-track" aria-hidden="true"></span>
+              Dim backdrop
+            </button>
+            <fieldset id="palette" class="pane segmented" glass>
+              <legend class="visually-hidden">Backdrop palette</legend>
+              <label><input type="radio" name="palette" value="#ff9a5a #ffe08a #ff6f91 #8f6bff" checked> Ember</label>
+              <label><input type="radio" name="palette" value="#35e0c8 #5aa0ff #c8f4ff #2b62d9"> Lagoon</label>
+              <label><input type="radio" name="palette" value="#d58cff #ff7fb5 #8f6bff #ffe0f5"> Orchid</label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="study" id="cards" tabindex="-1" aria-labelledby="cards-title">
+      <div class="words">
+        <h2 id="cards-title">Cards and players</h2>
+        <p>A notice and a player over moving water. The player’s button pauses the backdrop video, and the glass keeps refracting the frozen frame.</p>
+        <pre><code>.card {
+  --glass-frost: .5;
+  --glass-depth: .8;
+  --glass-tint: rgba(4, 20, 32, .45);
+}</code></pre>
+      </div>
+      <div class="stage" data-scene="./pool.webp" data-video="./pool-loop.mp4">
+        <div class="scene-content centered">
+          <article class="pane card" glass>
+            <h3>Open until 20:00</h3>
+            <p>Water at 27 degrees. Lanes 3 and 4 are free.</p>
+          </article>
+          <article class="pane card player" glass>
+            <div>
+              <h3>Pool ripples</h3>
+              <p>Seven-second loop</p>
+            </div>
+            <button class="pane round" glass type="button" data-motion data-noun="" hidden>Play</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="study" id="tabs" tabindex="-1" aria-labelledby="tabs-title">
+      <div class="words">
+        <h2 id="tabs-title">Tab bar</h2>
+        <p>The bar at the bottom of a mobile page, with a round action beside it. Every tab is a link with a visible label and a 44-pixel target.</p>
+        <pre><code>.tabs {
+  --glass-depth: 1.6;
+  --glass-dome: 1.4;
+  --glass-tint: rgba(6, 24, 20, .4);
+}</code></pre>
+      </div>
+      <div class="stage night" data-scene="aurora" data-colors="#3cff8a #0b5d3b #b6ff6a #0a2a4a">
+        <div class="scene-content dock">
+          <nav class="pane bar tabs" glass aria-label="Sections">
+            <a href="#guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Top</a>
+            <a href="#controls"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h10m4 0h2M4 16h2m4 0h10"/><circle cx="16" cy="8" r="2"/><circle cx="8" cy="16" r="2"/></svg>Controls</a>
+            <a href="#cards"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="6" rx="2"/><rect x="4" y="13" width="16" height="6" rx="2"/></svg>Cards</a>
+            <a href="#tabs" aria-current="location"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="14" width="18" height="6" rx="3"/><path d="M8 17h.01M12 17h.01M16 17h.01"/></svg>Tabs</a>
+          </nav>
+          <a class="pane round" glass href="#lens" aria-label="Go to the lens study">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="study" id="lens" tabindex="-1" aria-labelledby="lens-title">
+      <div class="words">
+        <h2 id="lens-title">A lens you can move</h2>
+        <p>Drag it across the tiles, or focus it and use the arrow keys. A thicker, more domed pane magnifies what is behind it. The lens is shown only while the glass effect is on.</p>
+        <pre><code>&lt;button glass glass-drag&gt;Drag&lt;/button&gt;
+.lens {
+  --glass-depth: 2;
+  --glass-dome: 2.2;
+}</code></pre>
+      </div>
+      <div class="stage" data-scene="./pool.webp">
+        <div class="scene-content centered">
+          <button id="loupe" class="pane round loupe" glass glass-drag type="button" data-needs-scene="glass" hidden>Drag</button>
+        </div>
+      </div>
+    </section>
   </main>
   <footer>
     <a href="https://github.com/owgit/liquid-glass-skill">Get the Liquid Glass skill on GitHub</a>
