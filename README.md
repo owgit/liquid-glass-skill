@@ -44,7 +44,9 @@ and keep keyboard focus, link destinations and the solid appearance working.
 
 ## How the iPhone example works
 
-The example starts with opaque controls. Turn on **Glass effect** to load the local renderer and refract the aurora behind the navigation. Turn it off to return to the original controls. Motion and transparency preferences can keep the scene solid. The sample handles renderer failures and WebGL context loss.
+The example renders solid HTML links immediately, then enables refraction on supported browsers. Toggle **Glass effect** to compare both modes against the same photograph. Look at the ridge and the northern lights as they cross a button’s curved edge. The optical effect comes from the WebGL scene. Low frost and a nearly clear tint preserve detail behind the label. Reduced-effects preferences, renderer failures and WebGL context loss return the controls to solid mode.
+
+The local WebP is a resized rendition of Sean O Riordan’s *Aurora Iceland*, dedicated to the public domain under CC0. [Original photograph and license](https://commons.wikimedia.org/wiki/File:Aurora_Iceland.jpg)
 
 To run the example locally from the repository root:
 
