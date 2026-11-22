@@ -44,7 +44,21 @@ Start from these and adjust against the real backdrop. A busy backdrop with fine
 | Segmented control | `<fieldset glass>` holding radio inputs and labels. Mark the checked label in CSS. | `--glass-frost: .35` |
 | Switch | `<button glass aria-pressed="false">` with a visible label | The bar’s values |
 | Card or notice | `<article glass>` | `--glass-frost: .5; --glass-depth: .8; --glass-dome: .8; --glass-tint: rgba(4, 20, 32, .45)` so body text stays readable |
-| Tab bar | `<nav glass>` of links, each with an icon and a visible label, plus a round `<a glass>` action | `--glass-depth: 1.6; --glass-dome: 1.4; --glass-tint: rgba(6, 24, 20, .4)` |
+| Tab bar | `<nav glass>` of links, each with an icon and a one-word label, plus a round `<a glass>` action | `--glass-depth: 1.6; --glass-dome: 1.4; --glass-frost: .3; --glass-tint: rgba(6, 24, 20, .4)`. To mark the selected tab, set `--glass-lens` to that tab’s centre from script. |
 | Lens | `<button glass glass-drag>` with `border-radius: 50%` | `--glass-depth: 2; --glass-dome: 2.2; --glass-pull: 0` |
 
 Each scene is its own WebGL context, and browsers limit how many a page can hold. Group nearby controls into one scene, and remove a scene that is no longer needed.
+
+### Tab bar
+
+These points follow Apple’s Human Interface Guidelines for [tab bars](https://developer.apple.com/design/human-interface-guidelines/tab-bars), [materials](https://developer.apple.com/design/human-interface-guidelines/materials) and [colour](https://developer.apple.com/design/human-interface-guidelines/color):
+
+- Use the bar to move between sections, and keep it visible in every section. Put actions elsewhere.
+- Keep to a few tabs. Give each a filled icon and a one-word label, and never hide or disable one.
+- Keep the bar monochrome over colourful content. Give only the selected tab the accent colour, and pick an accent that differs from every backdrop the bar sits over.
+- Put search at the trailing end as its own round button.
+- Frost the bar so the labels stay readable. Use clear glass only over photos and video, and dim a bright backdrop by about 0.35 with the scene’s `dim` attribute.
+
+The moving lens copies how the iOS tab bar behaves; the guidelines do not describe it. The lens rests on the selected tab at about 0.46 of the bar’s height, glides to a tapped tab, and grows to about 0.7 while a finger holds and drags it. The renderer springs `--glass-lens` to each new value, so the script writes only the target position and radius. The lens bends the backdrop and leaves the labels alone, so scale the tab under it in CSS.
+
+Keep the tabs as links, so a tap, the keyboard and a page without script all work without the drag. On the bar in glass mode, set `touch-action: pan-y` so a sideways drag reaches the script while the page still scrolls, and `-webkit-touch-callout: none` so a long press in Safari does not open the link preview.

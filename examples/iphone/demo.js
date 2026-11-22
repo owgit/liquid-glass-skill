@@ -228,4 +228,69 @@ if ("customElements" in window && "ResizeObserver" in window && "IntersectionObs
     send("pointerup", window, ...step);
     delete loupe.setPointerCapture;
   });
+
+  // The tab bar picks a view in place, with or without glass. With glass on, a lens rests on
+  // the current tab, glides to a tapped one, and grows and follows a sideways drag.
+  // `--glass-lens` is measured from the pane's centre; the renderer springs to each new value.
+  const tabs = document.querySelector(".tabs");
+  const tabLinks = [...tabs.querySelectorAll("a")];
+  const views = document.querySelector(".views");
+  const centre = link => {
+    const box = link.getBoundingClientRect();
+    return box.x + box.width / 2 - tabs.getBoundingClientRect().x;
+  };
+  const nearest = x => tabLinks.reduce((a, b) => Math.abs(centre(b) - x) < Math.abs(centre(a) - x) ? b : a);
+  const aim = (x, held) => tabs.style.setProperty("--glass-lens",
+    `${x - tabs.offsetWidth / 2} 0 ${tabs.offsetHeight * (held ? 0.7 : 0.46)}`);
+  const rest = () => {
+    tabs.querySelector("[data-under-lens]")?.removeAttribute("data-under-lens");
+    aim(centre(tabs.querySelector("[aria-current]")));
+  };
+  const select = link => {
+    for (const other of tabLinks) other.toggleAttribute("aria-current", other === link);
+    link.setAttribute("aria-current", "true");
+    for (const view of views.children) view.hidden = `#${view.id}` !== link.hash;
+    // Also kept on the stage, which seeds a scene that is created later.
+    tabs.closest(".stage").dataset.colors = link.dataset.colors;
+    tabs.closest("liquid-glass")?.setAttribute("colors", link.dataset.colors);
+    rest();
+  };
+  let dragFrom = null;
+  const endDrag = event => {
+    if (dragFrom === null) return;
+    const dragged = tabs.hasPointerCapture(event.pointerId);
+    dragFrom = null;
+    rest();
+    if (dragged && event.type === "pointerup") select(nearest(event.clientX - tabs.getBoundingClientRect().x));
+  };
+  tabs.addEventListener("click", event => {
+    const link = event.target.closest("a");
+    if (!link) return;
+    event.preventDefault(); // the link's target is the view; show it without scrolling the page
+    select(link);
+  });
+  tabs.addEventListener("pointerdown", event => {
+    if (event.isPrimary && event.button === 0 && tabs.hasAttribute("glass") && tabs.closest("liquid-glass")) dragFrom = event.clientX;
+  });
+  tabs.addEventListener("pointermove", event => {
+    if (dragFrom === null) return;
+    if (!event.buttons) return endDrag(event); // the mouse button was released outside the bar
+    if (!tabs.hasPointerCapture(event.pointerId)) {
+      if (Math.abs(event.clientX - dragFrom) < 8) return; // still a tap
+      tabs.setPointerCapture(event.pointerId);
+    }
+    const x = Math.min(Math.max(event.clientX - tabs.getBoundingClientRect().x, centre(tabLinks[0])), centre(tabLinks.at(-1)));
+    aim(x, true);
+    const under = nearest(x);
+    if (!under.hasAttribute("data-under-lens")) {
+      tabs.querySelector("[data-under-lens]")?.removeAttribute("data-under-lens");
+      under.setAttribute("data-under-lens", "");
+    }
+  });
+  tabs.addEventListener("pointerup", endDrag);
+  tabs.addEventListener("pointercancel", endDrag);
+  tabs.addEventListener("dragstart", event => event.preventDefault()); // a mouse would drag the link itself
+  views.classList.add("scripted");
+  select(tabLinks.find(link => link.hash === location.hash) ?? tabLinks[0]);
+  new ResizeObserver(rest).observe(tabs);
 }

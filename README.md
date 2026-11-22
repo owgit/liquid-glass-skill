@@ -49,7 +49,7 @@ and keep keyboard focus, link destinations and the solid appearance working.
 | Hero | Navigation bar, tinted primary button, secondary button | Pool video |
 | Buttons and controls | Buttons, a switch and a segmented control that change the scene’s `dim` and `colors` | Generated aurora |
 | Cards and players | A notice and a player whose button pauses the backdrop | Pool video |
-| Tab bar | Four labelled tabs and a round action | Generated aurora in green |
+| Tab bar | Four tabs that switch a view in place, a lens that glides to the selected tab and follows a drag, and a round action | Generated aurora, one palette per view |
 | Lens | A magnifier you drag or move with the arrow keys | Pool still |
 
 Every scene starts as a still image with solid HTML links and buttons. On supported browsers WebGL then refracts the backdrop through the same controls. Toggle **Glass effect** to compare transparent and solid controls across the whole page. Video playback pauses when its scene leaves the viewport or the tab is hidden. Reduced-effects preferences keep the still images and solid controls. If autoplay is blocked, **Play motion** starts playback on request. The variables behind each piece are listed in the [component recipes](skills/liquid-glass-web/references/recipes.md).

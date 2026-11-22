@@ -17,8 +17,8 @@
   <meta property="og:image:alt" content="A glass navigation bar and two glass buttons refract bright ripples in a turquoise pool.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" as="image" type="image/webp" href="./pool.webp" fetchpriority="high">
-  <link rel="stylesheet" href="./style.css?v=47dca04d">
-  <script type="module" src="./demo.js?v=7b18c831"></script>
+  <link rel="stylesheet" href="./style.css?v=001f4e3e">
+  <script type="module" src="./demo.js?v=3303d691"></script>
 </head>
 <body>
   <a class="skip" href="#guide">Skip to the guide</a>
@@ -110,24 +110,34 @@
     <section class="study" id="tabs" tabindex="-1" aria-labelledby="tabs-title">
       <div class="words">
         <h2 id="tabs-title">Tab bar</h2>
-        <p>The bar at the bottom of a mobile page, with a round action beside it. Every tab is a link with a visible label and a 44-pixel target.</p>
+        <p>The bar at the bottom of a mobile page, with a round button beside it. Every tab is a link with a one-word label and a 44-pixel target, and only the selected tab takes the accent colour. With the glass on, a lens marks the selected tab, glides to the one you tap, and grows and follows when you hold and drag.</p>
         <pre><code>.tabs {
   --glass-depth: 1.6;
   --glass-dome: 1.4;
+  --glass-frost: .3;
   --glass-tint: rgba(6, 24, 20, .4);
+  --glass-lens: 100 0 30;
 }</code></pre>
       </div>
       <div class="stage night" data-scene="aurora" data-colors="#3cff8a #0b5d3b #b6ff6a #0a2a4a">
-        <div class="scene-content dock">
-          <nav class="pane bar tabs" glass aria-label="Sections">
-            <a href="#guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Top</a>
-            <a href="#controls"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h10m4 0h2M4 16h2m4 0h10"/><circle cx="16" cy="8" r="2"/><circle cx="8" cy="16" r="2"/></svg>Controls</a>
-            <a href="#cards"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="6" rx="2"/><rect x="4" y="13" width="16" height="6" rx="2"/></svg>Cards</a>
-            <a href="#tabs" aria-current="location"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="14" width="18" height="6" rx="3"/><path d="M8 17h.01M12 17h.01M16 17h.01"/></svg>Tabs</a>
-          </nav>
-          <a class="pane round" glass href="#lens" aria-label="Go to the lens study">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg>
-          </a>
+        <div class="scene-content">
+          <div class="views" aria-live="polite">
+            <div class="view" id="view-home"><h3>Home</h3><p class="subtitle">Tap a tab to switch the view. The bar stays where it is.</p></div>
+            <div class="view" id="view-browse"><h3>Browse</h3><p class="subtitle">With the glass on, hold the bar and drag sideways.</p></div>
+            <div class="view" id="view-saved"><h3>Saved</h3><p class="subtitle">With the glass on, each view brings its own backdrop colours.</p></div>
+            <div class="view" id="view-account"><h3>Account</h3><p class="subtitle">Switch the glass effect off. The tabs keep working.</p></div>
+          </div>
+          <div class="dock">
+            <nav class="pane bar tabs" glass aria-label="Views">
+              <a href="#view-home" data-colors="#3cff8a #0b5d3b #b6ff6a #0a2a4a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Home</a>
+              <a href="#view-browse" data-colors="#35e0c8 #0b3d6b #7fd4ff #0a1a4a"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Browse</a>
+              <a href="#view-saved" data-colors="#d58cff #4a1d6b #ff9ad0 #1a0a3a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg>Saved</a>
+              <a href="#view-account" data-colors="#7f8cff #1d2a6b #b3c0ff #0a0a3a"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0z"/></svg>Account</a>
+            </nav>
+            <a class="pane round" glass href="#lens" aria-label="Go to the lens study">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg>
+            </a>
+          </div>
         </div>
       </div>
     </section>
